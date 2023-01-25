@@ -3,15 +3,26 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start": "nx serve admin-portal",
     "build": "nx build",
     "test": "nx test"
   },
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.4",
+    "@nrwl/nx-cloud": "^15.0.2",
+    "@reduxjs/toolkit": "1.8.5",
+    "axios": "^1.2.2",
     "core-js": "^3.6.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.42.1",
+    "react-redux": "8.0.2",
+    "react-router": "^6.6.1",
+    "react-router-dom": "^6.6.1",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.3.0"
   },
