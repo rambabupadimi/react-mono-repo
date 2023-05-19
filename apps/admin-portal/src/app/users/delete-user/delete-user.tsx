@@ -1,5 +1,6 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as deleteUserActions from '../state/delete-user.slice';
 import styles from './delete-user.module.scss';
 
@@ -11,10 +12,24 @@ export interface DeleteUserProps {
 export function DeleteUser(props: DeleteUserProps) {
 
   const dispatch = useDispatch()<any>;
+  const deleteUserData = useSelector(deleteUserActions.getDeleteUserData);
+  const deleteUserAPIStatus = useSelector(deleteUserActions.getDeleteUserAPIStatus);
 
   const handleClose = () => {
     dispatch(deleteUserActions.deleteUserActions.closeDeleteUserDialog())
   }
+
+  const handleYes = () => {
+    dispatch(deleteUserActions.fetchDeleteUser(deleteUserData.id))
+  } 
+
+  useEffect(() => {
+    // 
+    if(deleteUserAPIStatus === 'loaded') {
+      dispatch(deleteUserActions.deleteUserActions.closeDeleteUserDialog())
+      dispatch(deleteUserActions.deleteUserActions.resetDeleteUserAPICallStatus())
+    }
+  },[deleteUserAPIStatus])
 
 
   return (
@@ -25,18 +40,17 @@ export function DeleteUser(props: DeleteUserProps) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+        User Delete
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            Are you sure you want to delete {deleteUserData?.name} ?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
+          <Button  variant="outlined" onClick={handleClose}>No</Button>
+          <Button variant="contained" onClick={handleYes} autoFocus>
+            Yes
           </Button>
         </DialogActions>
       </Dialog>

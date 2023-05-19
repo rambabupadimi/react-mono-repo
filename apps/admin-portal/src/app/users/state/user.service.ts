@@ -21,7 +21,7 @@ export function callAddUser(userRequest: AddUserItem) {
 }
 
 export function callEditUser(userRequest: EditUserItem) {
-  return axios.put(ADD_USER,userRequest);
+  return axios.put(ADD_USER+''+userRequest.id,userRequest);
 }
 
 export function callDeleteUser(id: number) {

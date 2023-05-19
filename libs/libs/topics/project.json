@@ -1,0 +1,24 @@
+{
+  "name": "libs-topics",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/libs/topics/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/libs/topics/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/libs/topics"],
+      "options": {
+        "jestConfig": "libs/libs/topics/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

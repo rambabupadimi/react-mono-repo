@@ -7,12 +7,22 @@ export interface AuthProps {}
 
 export function Auth(props: AuthProps) {
   return (
-    <React.Fragment>
     <div className={styles['container']}>
-      <h1>Welcome to Auth!</h1>
-      <Outlet />
+      <div className={`${styles['auth-section-left']} ${styles['white']}`}>        
+       <div className={styles['heading']}><span>REACT</span></div><br/>
+       <div className={styles['sub-heading']}><span>Welcome to React World</span></div> 
       </div>
-      </React.Fragment>
+     
+
+      <div className= {styles['auth-section-right']}>
+        <Outlet />
+      </div>
+
+      <div className={`${styles['auth-section-mobile']}`}>        
+       <div className={styles['heading']}><span>REACT</span></div><br/>
+       <div className={styles['sub-heading']}><span>Welcome to React World</span></div> 
+      </div>
+    </div>
   );
 }
 

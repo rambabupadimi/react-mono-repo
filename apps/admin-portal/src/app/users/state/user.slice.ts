@@ -92,9 +92,14 @@ export const selectAllUser = createSelector(getUserState, selectAll);
 export const selectUserEntities = createSelector(getUserState, selectEntities);
 
 export const getUserListStatus = (state: any) => {
+  console.log(getUserState);
   console.log(state);
   return state?.user?.loadingStatus;
 };
+
+export const getTotalUsersCount = (state:any) => {
+  return state?.user?.usersResponse?.total_pages;
+}
 
 // export const getPostStatus = (state: any) => state.posts.status;
 //export const selectAllUser = (state: any) => state?.loginResponse?.data;

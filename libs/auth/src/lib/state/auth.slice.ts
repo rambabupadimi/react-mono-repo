@@ -12,41 +12,11 @@ import { callLogin } from './auth.service';
 
 export const AUTH_FEATURE_KEY = 'auth';
 
-/*
- * Update these interfaces according to your requirements.
- */
-
-
-// export interface AuthState extends EntityState<AuthEntity> {
-//   loadingStatus: 'not loaded' | 'loading' | 'loaded' | 'error';
-//   error: string | undefined;
-// }
-
 export interface AuthState {
   loadingStatus: 'not loaded' | 'loading' | 'loaded' | 'error';
   error: string | null | undefined;
   loginResponse: LoginResponse | null;
 }
-
-// export const authAdapter = createEntityAdapter<AuthEntity>();
-
-export const doLogin = createAsyncThunk(
-  'auth/login',
-  async (loginRequest: any) => {
-    try {
-      const response: any = await callLogin(loginRequest);
-      console.log('action response--', response);
-      return { ...response.data };
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
-  }
-);
-
-// export const initialAuthState: AuthState = authAdapter.getInitialState({
-//   loadingStatus: 'not loaded',
-//   error: null,
-// });
 
 export const initialAuthState: AuthState =  {
   loadingStatus: 'not loaded',
@@ -58,6 +28,10 @@ export const authSlice = createSlice({
   name: AUTH_FEATURE_KEY,
   initialState: initialAuthState,
   reducers: {
+    loginDestroy(state) {
+      state.error = null;
+      state.loadingStatus = 'not loaded';
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -67,8 +41,6 @@ export const authSlice = createSlice({
       .addCase(
         doLogin.fulfilled,
         (state: AuthState, action: PayloadAction<any>) => {
-          console.log(action)
-          console.log(state);
           state.loginResponse = action.payload.data;
           state.loadingStatus = 'loaded';
           localStorage.setItem('token', action.payload.data.Token);
@@ -81,9 +53,6 @@ export const authSlice = createSlice({
   },
 });
 
-/*
- * Export reducer for store configuration.
- */
 export const authReducer = authSlice.reducer;
 export const authActions = authSlice.actions;
 
@@ -95,6 +64,24 @@ export const getLoginStatus = (getAuthState: any) => {
   return getAuthState.auth.loadingStatus;
 }
 
-// export const selectAllAuth = createSelector(getAuthState, selectAll);
+export const getError = (getAuthState:any) => {
+  return getAuthState.auth.error;
+}
 
-// export const selectAuthEntities = createSelector(getAuthState, selectEntities);
+// middleware async tunk
+export const doLogin = createAsyncThunk(
+  'auth/login',
+  async (loginRequest: any) => {
+    try {
+      const response: any = await callLogin(loginRequest);
+      console.log('action response--', response);
+      if(response.data.data) {
+        return { ...response.data };
+      } else {
+        throw new Error(response.data.message);
+      }
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+);

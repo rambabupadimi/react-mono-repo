@@ -3,40 +3,68 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import {
   DialogContent,
-  DialogContentText,
-  TextField,
   DialogActions,
   Button,
   FilledInput,
   FormControl,
   FormHelperText,
-  IconButton,
   InputLabel,
-  Link,
   Stack,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserActions, addUserAPICallStatus, editUserActions,fetchAddUser } from '../state/add-user.slice';
+import {
+  addUserActions,
+  addUserAPICallStatus,
+  editUserActions,
+  editUserAPICallStatus,
+  fetchAddUser,
+  fetchEditUser,
+  getEditUserData,
+  
+} from '../state/add-user.slice';
 import { useForm } from 'react-hook-form';
-import SendIcon from '@mui/icons-material/Send';
-import { userActions } from '../state/user.slice';
 import { useEffect } from 'react';
 
 /* eslint-disable-next-line */
 export interface AddUserProps {
   isOpen: boolean;
   type: string;
+  data?:any;
 }
 
 export function AddUser(props: AddUserProps) {
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const dispatch = useDispatch<any>();
   const addUserAPIStatus = useSelector(addUserAPICallStatus);
+  const editUserAPIStatus = useSelector(editUserAPICallStatus);
+  const editUserData = useSelector(getEditUserData);
+
+  useEffect(() => {
+    console.log('called use effect');
+    if (addUserAPIStatus === 'loaded') {
+      dispatch(addUserActions.closeAddUserDialog());
+      dispatch(addUserActions.resetAddUserAPICallStatus());
+    }
+    if(editUserAPIStatus === 'loaded') {
+      dispatch(editUserActions.closeEditUserDialog());
+      dispatch(editUserActions.resetEditUserAPICallStatus());
+    }
+
+    if(props.type === 'edit' && editUserData) {
+      setValue('email', editUserData.email);
+      setValue('location',editUserData.location);
+      setValue('name',editUserData.name);
+    }
+
+  }, [addUserAPIStatus,editUserData]);
+
+
   const handleClose = () => {
     if (props.type === 'add') {
       dispatch(addUserActions.closeAddUserDialog());
@@ -45,21 +73,26 @@ export function AddUser(props: AddUserProps) {
     }
   };
 
-  useEffect(() => {
-    if (addUserAPIStatus === 'loaded') {
-      dispatch(addUserActions.closeAddUserDialog());
-    }
-  },[addUserAPIStatus])
-
   const onSubmit = (data: any) => {
     console.log(data);
-    dispatch(fetchAddUser(data));
-  };
+    if(props.type === 'add'){
+      dispatch(fetchAddUser(data));
+    }
+    else
+    {
+      data.id = editUserData.id;
+      console.log("edit api data",data);
+      dispatch(fetchEditUser(data));
+    }
+
+  };  
 
   return (
     <Dialog open={props.isOpen} onClose={handleClose}>
       <div style={{ width: 500 }}>
-        <DialogTitle>Add User</DialogTitle>
+        <DialogTitle> 
+          { props.type === 'add' ? 'Add User' : 'Edit User'}
+          </DialogTitle>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <DialogContent>
@@ -88,31 +121,31 @@ export function AddUser(props: AddUserProps) {
               <FormControl
                 variant="filled"
                 required
-                error={Boolean(errors['password'])}
+                error={Boolean(errors['name'])}
               >
-                <InputLabel htmlFor="component-filled">Password</InputLabel>
+                <InputLabel htmlFor="component-filled">Name</InputLabel>
                 <FilledInput
                   id="component-filled"
-                  {...register('password', {
-                    required: 'Password required',
+                  {...register('name', {
+                    required: 'Name required',
                     maxLength: 15,
                     minLength: 6,
                   })}
                 />
                 <FormHelperText>
-                  {errors['password']?.type === 'required' &&
-                    errors['password'].message?.toString()}
-                  {errors['password']?.type === 'minLength' &&
-                    'Password miniumm 6 characters'}
-                  {errors['password']?.type === 'maxLength' &&
-                    'Password below 15 characters'}
+                  {errors['name']?.type === 'required' &&
+                    errors['name'].message?.toString()}
+                  {errors['name']?.type === 'minLength' &&
+                    'Name miniumm 6 characters'}
+                  {errors['name']?.type === 'maxLength' &&
+                    'Name below 15 characters'}
                 </FormHelperText>
               </FormControl>
 
               <FormControl
                 variant="filled"
                 required
-                error={Boolean(errors['password'])}
+                error={Boolean(errors['location'])}
               >
                 <InputLabel htmlFor="component-filled">Location</InputLabel>
                 <FilledInput

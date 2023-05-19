@@ -20,6 +20,7 @@ export interface EditUserState  {
   loadingStatus: 'not loaded' | 'loading' | 'loaded' | 'error';
   error: string | null | undefined;
   isDialogShow: boolean;
+  data:any |null;
 }
 
 
@@ -64,7 +65,8 @@ export const initialEditUserState: EditUserState =
 {
   loadingStatus: 'not loaded',
   error: null,
-  isDialogShow: false
+  isDialogShow: false,
+  data: null
 }
 
 
@@ -78,6 +80,9 @@ export const addUserSlice = createSlice({
     closeAddUserDialog: (state) => {
       state.isDialogShow = false;
     },
+    resetAddUserAPICallStatus: (state) => {
+      state.loadingStatus = 'not loaded';
+    }
 
   },
   extraReducers: (builder) => {
@@ -102,12 +107,18 @@ export const editUserSlice = createSlice({
   name: EDIT_USER_FEATURE_KEY,
   initialState: initialEditUserState,
   reducers: {
-    openEditUserDialog: (state) => {
+    openEditUserDialog: (state,action) => {
       state.isDialogShow = true;
+      console.log('payload is--',action);
+      state.data = action.payload;
     },
     closeEditUserDialog: (state) => {
       state.isDialogShow = false;
+    },
+    resetEditUserAPICallStatus: (state) => {
+      state.loadingStatus = 'not loaded';
     }
+
   },
   extraReducers: (builder) => {
     builder
@@ -152,4 +163,10 @@ export const editUserDialogDisplayStatus = (state: any) => {
 export const addUserAPICallStatus = (state: any) => {
   return state.addUser.loadingStatus;
 }
+export const editUserAPICallStatus = (state:any) => {
+  return state.editUser.loadingStatus;
+}
 
+export const getEditUserData = (state:any) => {
+  return state.editUser.data;
+}

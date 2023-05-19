@@ -1,0 +1,36 @@
+/*
+ * Replace this with your own classes
+ *
+ * e.g.
+ * .container {
+ * }
+*/
+
+.container {
+  width: 70%;
+}
+.login-button {
+  background-color: black !important;
+  margin: 0 auto;
+  width: 150px;
+  height: 46px;
+}
+.login-heading {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+.error-banner {
+  padding: 12px;
+  background: #dbc6c6;
+  border-radius: 6px;
+  color: #7d1b1b;
+}
+.input-group {
+  height: 180px;
+}
+
+.login-button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

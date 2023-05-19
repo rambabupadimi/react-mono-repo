@@ -1,39 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { doLogin } from '../state/auth.slice';
 import styles from './login.module.scss';
 import * as authActions from '../state/auth.slice';
-import { useNavigate } from 'react-router';
-/* eslint-disable-next-line */
-export interface LoginProps {}
 
-export function Login(props: LoginProps) {
+import { useNavigate } from 'react-router';
+import { LoginView } from './login-view';
+
+export function Login() {
+
+
+  const [name, setName] = useState('ramu');
+  
   const dispatch = useDispatch()<any>;
-  const loginLoadingStatus = useSelector(authActions.getLoginStatus);
   const navigate = useNavigate();
+  const loginLoadingStatus = useSelector(authActions.getLoginStatus);
+  const error = useSelector(authActions.getError);
 
   useEffect(() => {
     // called only once
-  }, [dispatch]);
+    return () => {
+      dispatch(authActions.authActions.loginDestroy());
+    }
+  }, []);
 
-  const onLogin = () => {
-    const loginRequest = { email: 'Developer@gmail.com', password: '123456' };
-    dispatch(authActions.doLogin(loginRequest));
+  const onLogin = (data:any) => {
+    dispatch(authActions.doLogin({email: data.email, password: data.password}));
   };
 
-  console.log('login page----', loginLoadingStatus);
-
   if (loginLoadingStatus === 'loaded') {
-    console.log('login loading status----');
     navigate('../../users', { replace: true });
   }
 
   return (
     <div className={styles['container']}>
-      <h1>Welcome to Login!</h1>
-      <button type="button" onClick={onLogin}>
-        Login
-      </button>
+      <LoginView
+        loginLoadingStatus = {loginLoadingStatus}
+        error = {error}
+        onLogin = {onLogin}
+      ></LoginView>
     </div>
   );
 }

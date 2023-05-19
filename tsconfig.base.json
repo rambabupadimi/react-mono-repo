@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@monorepo-demo/auth": ["libs/auth/src/index.ts"]
+      "@monorepo-demo/auth": ["libs/auth/src/index.ts"],
+      "@monorepo-demo/libs/topics": ["libs/libs/topics/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
