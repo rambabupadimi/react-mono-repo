@@ -10,6 +10,10 @@ import { RequireAuth } from './helpers/required-auth';
 import { RequireDashboard } from './helpers/required-dashboard';
 import UserDetails from './users/user-details/user-details';
 import { createTheme, ThemeProvider } from '@mui/material';
+import NavLayout from './layouts/nav-layout/nav-layout';
+import Forms from './forms/forms';
+import Tables from './tables/tables';
+import Topics from './topics/topics';
 
 
 export const purple = {
@@ -50,8 +54,16 @@ export function App() {
           <Route path='login' element={<RequireDashboard><Login /></RequireDashboard>}></Route>
         </Route>
         
-        <Route path='users' element={<RequireAuth><User /></RequireAuth>}></Route>
-        <Route path='user-details/:id' element={<RequireAuth><UserDetails/></RequireAuth>}></Route>
+        <Route path='dashboard' element={<RequireAuth><NavLayout></NavLayout></RequireAuth>}>
+          <Route path='' element={<Navigate to="users" />} ></Route>
+          <Route path='users' element={<User />}></Route>
+          <Route path='forms' element={<Forms />}></Route>
+          <Route path='tables' element={<Tables />}></Route>
+          <Route path='topics' element={<Topics />}></Route>
+
+          <Route path='user-details/:id' element={<UserDetails/>}></Route>
+        </Route>
+
       </Routes>
     </ThemeProvider>
   );

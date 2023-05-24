@@ -7,9 +7,6 @@ import { useNavigate } from 'react-router';
 import { LoginView } from './login-view';
 
 export function Login() {
-
-
-  const [name, setName] = useState('ramu');
   
   const dispatch = useDispatch()<any>;
   const navigate = useNavigate();
@@ -28,7 +25,7 @@ export function Login() {
   };
 
   if (loginLoadingStatus === 'loaded') {
-    navigate('../../users', { replace: true });
+    navigate('../../dashboard', { replace: true });
   }
 
   return (

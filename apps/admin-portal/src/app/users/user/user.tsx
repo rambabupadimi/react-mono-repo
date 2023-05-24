@@ -223,10 +223,6 @@ export function User(props: UserProps) {
     content = 'data loading error';
   }
 
-  const onLogout = () => {
-    localStorage.clear();
-    navigate('../auth/login', { replace: true });
-  };
 
   const openAddUserDialog = () => {
     dispatch(addUserActions.addUserActions.openAddUserDialog());
@@ -250,7 +246,7 @@ export function User(props: UserProps) {
 
        <Stack spacing={2} direction="row"  style={{display:'flex',justifyContent:'right'}}> 
       <Button type="button" variant="contained" onClick={openAddUserDialog}>Add User</Button>
-      <Button type="button" variant="outlined" onClick={onLogout} >Logout</Button>
+
       </Stack>
       <br/>
       {content}
