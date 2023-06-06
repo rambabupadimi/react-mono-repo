@@ -5,15 +5,18 @@ import NxWelcome from './nx-welcome';
 
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from 'libs/auth/src/lib/login/login';
-import User from './users/user/user';
 import { RequireAuth } from './helpers/required-auth';
 import { RequireDashboard } from './helpers/required-dashboard';
 import UserDetails from './users/user-details/user-details';
 import { createTheme, ThemeProvider } from '@mui/material';
 import NavLayout from './layouts/nav-layout/nav-layout';
-import Forms from './forms/forms';
-import Tables from './tables/tables';
-import Topics from './topics/topics';
+import React from 'react';
+
+
+const User =  React.lazy(()=> import('./users/user/user'))
+const Forms =  React.lazy(()=> import('./forms/forms'))
+const Tables =  React.lazy(()=> import('./tables/tables'))
+const Topics =  React.lazy(()=> import('./topics/topics'))
 
 
 export const purple = {
@@ -55,11 +58,11 @@ export function App() {
         </Route>
         
         <Route path='dashboard' element={<RequireAuth><NavLayout></NavLayout></RequireAuth>}>
-          <Route path='' element={<Navigate to="users" />} ></Route>
-          <Route path='users' element={<User />}></Route>
-          <Route path='forms' element={<Forms />}></Route>
-          <Route path='tables' element={<Tables />}></Route>
-          <Route path='topics' element={<Topics />}></Route>
+          <Route path='' element={ <React.Suspense> <Navigate to="users" /> </React.Suspense>} ></Route>
+          <Route path='users' element={ <React.Suspense><User /></React.Suspense>} ></Route>
+          <Route path='forms' element={ <React.Suspense> <Forms />  </React.Suspense>}></Route>
+          <Route path='tables' element={ <React.Suspense> <Tables /> </React.Suspense>}></Route>
+          <Route path='topics' element={  <React.Suspense> <Topics /> </React.Suspense>}></Route>
 
           <Route path='user-details/:id' element={<UserDetails/>}></Route>
         </Route>

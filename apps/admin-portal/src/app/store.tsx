@@ -4,7 +4,7 @@ import { addUserReducer, editUserReducer } from "./users/state/add-user.slice";
 import { deleteUserReducer } from "./users/state/delete-user.slice";
 import { userDetailsReducer } from "./users/state/user-details.slice";
 import { userReducer } from "./users/state/user.slice";
-
+import { formReducer } from "./forms/state/form.slice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -12,7 +12,8 @@ const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   addUser: addUserReducer,
   editUser: editUserReducer,
-  deleteUser: deleteUserReducer
+  deleteUser: deleteUserReducer,
+  formUser: formReducer
 })
 
 export const store = configureStore(
