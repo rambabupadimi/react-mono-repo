@@ -11,6 +11,7 @@ import DeleteUser from '../delete-user/delete-user';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PreviewIcon from '@mui/icons-material/Preview';
 import {
   TableContainer,
   TableHead,
@@ -24,6 +25,7 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  Skeleton,
 } from '@mui/material';
 
 import React from 'react';
@@ -69,7 +71,6 @@ export function User(props: UserProps) {
 
   const users = useSelector(userActions.selectAllUser);
   const totalUsersCount = useSelector(userActions.getTotalUsersCount);
-
   const getUserStatus = useSelector(userActions.getUserListStatus);
   const navigate = useNavigate();
   const addUserDialogDisplayStatus = useSelector(
@@ -84,27 +85,31 @@ export function User(props: UserProps) {
 
   const [menu, setMenu] = useState(null);
   const open = Boolean(menu);
-  const handleClick = (e:any) => {
-      setMenu(e.currentTarget);
+  const handleClick = (e: any) => {
+    setMenu(e.currentTarget);
   };
-  const handleMenuItemClick = (item:any,type:string) => {
+  const handleMenuItemClick = (item: any, type: string) => {
     setMenu(null);
     console.log(item);
     console.log(type);
-
-  }
+  };
 
   useEffect(() => {
+
+    console.log('called users component');
+
     if (getUserStatus === 'not loaded') {
       dispatch(userActions.fetchUser(page));
     }
     return () => {
       //destroy call when component destroyed
       //test comment
+      dispatch(userActions.userActions.resetLoadingState())
     };
   }, []);
 
   const handleItemClick = (event: any) => {
+    
     navigate('../user-details/' + event.id);
   };
 
@@ -130,11 +135,44 @@ export function User(props: UserProps) {
     //dispatch(userActions.fetchUser(page));
   };
 
-
   let content;
   console.log(getUserStatus);
   if (getUserStatus === 'loading') {
-    content = 'loading....';
+    content = (
+      <TableContainer>
+        <Table aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+              <TableCell> </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {[1,2,3,4,5,6,7,8,9,10].map((item) => {
+              return (
+                <TableRow style={{height:'50px', cursor:'pointer'}}>
+                  {columns.map((column) => {
+                    return (
+                      <TableCell>
+                        <Skeleton></Skeleton>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+
     console.log('called loading');
   } else if (getUserStatus === 'loaded') {
     console.log('called loaded');
@@ -165,18 +203,28 @@ export function User(props: UserProps) {
                         return <TableCell>{value}</TableCell>;
                       })}
                       <TableCell>
-
                         <Stack direction="row" spacing={2}>
-                        <IconButton id="edit" onClick={(e) => handleEditButtonClick(user)}>
-                        <ModeEditIcon/>
-                        </IconButton>
-                        <IconButton id="delete"  onClick={(e) => handleDeleteButtonClick(user)}>
-                        <DeleteIcon/>
-                        </IconButton>
 
-
+                        <IconButton
+                            id="view"
+                            onClick={(e) => handleItemClick(user)}
+                          >
+                            <PreviewIcon/>
+                          </IconButton>
+                          <IconButton
+                            id="edit"
+                            onClick={(e) => handleEditButtonClick(user)}
+                          >
+                            <ModeEditIcon />
+                          </IconButton>
+                          <IconButton
+                            id="delete"
+                            onClick={(e) => handleDeleteButtonClick(user)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
                         </Stack>
-                       
+
                         {/* <IconButton
                            id="button"
                            aria-haspopup="true"
@@ -192,8 +240,7 @@ export function User(props: UserProps) {
                           <MenuItem onClick={(e) => handleEditButtonClick(user)}> Edit</MenuItem>
                           <MenuItem onClick={ (e) => handleDeleteButtonClick(user)}> Delete</MenuItem>
                     </Menu> */}
-
-                      </TableCell> 
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -223,7 +270,6 @@ export function User(props: UserProps) {
     content = 'data loading error';
   }
 
-
   const openAddUserDialog = () => {
     dispatch(addUserActions.addUserActions.openAddUserDialog());
   };
@@ -244,11 +290,16 @@ export function User(props: UserProps) {
       )}
       <DeleteUser isOpen={deleteUserDialogDisplayStatus}></DeleteUser>
 
-       <Stack spacing={2} direction="row"  style={{display:'flex',justifyContent:'right'}}> 
-      <Button type="button" variant="contained" onClick={openAddUserDialog}>Add User</Button>
-
+      <Stack
+        spacing={2}
+        direction="row"
+        style={{ display: 'flex', justifyContent: 'right' }}
+      >
+        <Button type="button" variant="contained" onClick={openAddUserDialog}>
+          Add User
+        </Button>
       </Stack>
-      <br/>
+      <br />
       {content}
     </div>
   );

@@ -1,8 +1,12 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
 /* You can add global styles to this file, and also import other style files */
-body,html {
-    margin: 0px !important;
-    height: 100%;
+body,
+html {
+  margin: 0px !important;
+  height: 100%;
 }
 #root {
-    height: 100%;
+  height: 100%;
 }

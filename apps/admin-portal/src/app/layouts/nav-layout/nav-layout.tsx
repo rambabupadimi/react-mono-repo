@@ -164,7 +164,7 @@ export default function NavLayout() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Users', 'Forms', 'Tables', 'Topics'].map((text, index) => (
+          {['Users', 'Forms', 'Tables', 'Topics','Tabs'].map((text, index) => (
             <ListItem 
             key={text} 
             disablePadding sx={{ display: 'block' }} 
