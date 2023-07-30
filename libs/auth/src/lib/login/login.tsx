@@ -5,6 +5,9 @@ import * as authActions from '../state/auth.slice';
 
 import { useNavigate } from 'react-router';
 import { LoginView } from './login-view';
+import { useTheme } from '@mui/material';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import {tokens} from '../../../../../apps/admin-portal/src/theme'
 
 export function Login() {
   
@@ -12,6 +15,8 @@ export function Login() {
   const navigate = useNavigate();
   const loginLoadingStatus = useSelector(authActions.getLoginStatus);
   const error = useSelector(authActions.getError);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   useEffect(() => {
     // called only once

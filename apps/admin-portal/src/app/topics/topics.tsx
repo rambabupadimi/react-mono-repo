@@ -1,10 +1,17 @@
 import styles from './topics.module.scss';
 import logo from './../../assets/img/ts-logo.png';
+import { useTheme } from '@mui/material';
+import { tokens } from '../../theme';
 
 /* eslint-disable-next-line */
 export interface TopicsProps {}
 
 export function Topics(props: TopicsProps) {
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+
   return (
     <div className={styles['container']}>
       <h1>Welcome to Topics!</h1>
@@ -58,21 +65,22 @@ export function Topics(props: TopicsProps) {
       */}
 
       <div
-        className="p-6  bg-blue-200
+        className="p-6   
                         flex items-center 
                         space-x-4
                         max-w-md
                         rounded-md
                         mx-auto
-                        shadow-2xl
+                        shadow-lg
                         "
+                        style={{backgroundColor:colors.primary[400]}}
       >
         <div className="shrink-0">
           <img className="h-12 w-12" src={logo} alt="ChitChat Logo" />
         </div>
         <div>
-          <h4 className="text-xl font-bold text-black">ChitChat</h4>
-          <p className=" text-slate-500">You have a new message!</p>
+          <h4 className="text-xl font-bold">ChitChat</h4>
+          <p >You have a new message!</p>
         </div>
       </div>
 
@@ -83,7 +91,6 @@ export function Topics(props: TopicsProps) {
          return (
          <div className="py-8 
           px-8
-
           mx-4
            bg-white 
            rounded-xl 
@@ -94,7 +101,9 @@ export function Topics(props: TopicsProps) {
            sm:flex 
            sm:items-center 
            sm:space-y-0
-           sm:space-x-6">
+           sm:space-x-6"
+           style={{backgroundColor:colors.primary[400]}}
+           >
             <img
               className="block mx-auto h-24 rounded-full sm:mx-0 sm:shrink-0"
               src={logo}
@@ -102,10 +111,10 @@ export function Topics(props: TopicsProps) {
             />
             <div className="text-center space-y-2 sm:text-left">
               <div className="space-y-0.5">
-                <p className="text-lg text-black font-semibold">Erin Lindford</p>
-                <p className="text-slate-500 font-medium">Product Engineer</p>
+                <p className="text-lg font-semibold">Erin Lindford</p>
+                <p className=" font-medium">Product Engineer</p>
               </div>
-              <button className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">
+              <button className="px-4 py-1 text-sm font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">
                 Message
               </button>
             </div>

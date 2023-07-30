@@ -27,6 +27,10 @@ import {useLocation} from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useEffect } from 'react';
 
+import { LightModeOutlined } from '@mui/icons-material';
+import { DarkModeOutlined } from '@mui/icons-material';
+import { ColorModeContext, tokens } from '../../../theme';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -102,11 +106,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function NavLayout() {
   const location = useLocation();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const [activeLabel, setActiveLabel]= React.useState('users');
 
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = React.useContext(ColorModeContext);
   
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,7 +143,7 @@ export default function NavLayout() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar style={{backgroundColor: colors.primary[400]}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -153,18 +159,25 @@ export default function NavLayout() {
           <Typography variant="h6" noWrap component="div">
             React Dashboard
           </Typography>
-          <Button type="button" style={{position:'absolute', right:'24px', color:'#ffeeee',backgroundColor:'#966d6d'}} variant="outlined" onClick={onLogout} >Logout</Button>
+
+            <IconButton onClick={colorMode.toggleColorMode} >
+              {theme.palette.mode === 'dark' ?  <DarkModeOutlined/> : <LightModeOutlined/>}
+               </IconButton>
+          
+          <Button type="button" style={{position:'absolute', right:'24px',backgroundColor:colors.primary[500], color: colors.primary[100]}} 
+
+          variant="outlined" onClick={onLogout} >Logout</Button>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" style={{backgroundColor:'#e2d2d2'}} open={open}>
-        <DrawerHeader>
+      <Drawer variant="permanent"  style={{backgroundColor: colors.primary[400]}}  open={open} >
+        <DrawerHeader  style={{backgroundColor: colors.primary[400]}}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {['Users', 'Forms', 'Tables', 'Topics','Tabs'].map((text, index) => (
+        <List  style={{backgroundColor: colors.primary[400]}}>
+          {['Users', 'Forms', 'Tables', 'Topics','Tabs','Stepper','Custom-Grid'].map((text, index) => (
             <ListItem 
             key={text} 
             disablePadding sx={{ display: 'block' }} 
@@ -197,7 +210,9 @@ export default function NavLayout() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        {/* <div style={{backgroundColor: colors.primary[200], height:'100%'}}> */}
         <Outlet/>
+        {/* </div> */}
       </Box>
     </Box>
   );

@@ -7,9 +7,14 @@ import {
   FormHelperText,
   InputLabel,
   Stack,
+  useTheme,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import styles from './login-view.module.scss';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import {tokens} from '../../../../../apps/admin-portal/src/theme'
+
+
 
 interface LoginViewProps {
   loginLoadingStatus: string;
@@ -23,6 +28,9 @@ export const LoginView = (props: LoginViewProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   console.log(errors);
 
@@ -94,11 +102,12 @@ export const LoginView = (props: LoginViewProps) => {
               type="button"
               className={styles['login-button']}
               variant="contained"
+              style={{backgroundColor:colors.primary[500]}}
             >
               <CircularProgress
                 size={24}
                 sx={{
-                  color: '#ffffff',
+                  color: colors.grey[100],
                 }}
               />
             </Button>
@@ -107,6 +116,7 @@ export const LoginView = (props: LoginViewProps) => {
               type="submit"
               className={styles['login-button']}
               variant="contained"
+              style={{backgroundColor:colors.primary[500]}}
             >
               Login
             </Button>

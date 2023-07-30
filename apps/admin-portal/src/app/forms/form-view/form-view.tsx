@@ -205,7 +205,9 @@ export function FormView(props: FormViewProps) {
                   required: 'Qualification required',
                 })}
                 value="ug"
-                control={<Checkbox checked={ugCheckQualification} onChange={(e)=>{ console.log(e);
+                control={<Checkbox
+                  
+                  checked={ugCheckQualification} onChange={(e)=>{ console.log(e);
                   setUgCheckQualification(e.target.checked)
                 }} />}
                 label="UG"

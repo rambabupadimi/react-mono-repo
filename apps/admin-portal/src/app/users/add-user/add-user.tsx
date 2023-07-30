@@ -10,6 +10,7 @@ import {
   FormHelperText,
   InputLabel,
   Stack,
+  useTheme,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,16 +21,17 @@ import {
   fetchAddUser,
   fetchEditUser,
   getEditUserData,
-  
 } from '../state/add-user.slice';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { tokens } from 'apps/admin-portal/src/theme';
 
 /* eslint-disable-next-line */
 export interface AddUserProps {
   isOpen: boolean;
   type: string;
-  data?:any;
+  data?: any;
 }
 
 export function AddUser(props: AddUserProps) {
@@ -51,19 +53,17 @@ export function AddUser(props: AddUserProps) {
       dispatch(addUserActions.closeAddUserDialog());
       dispatch(addUserActions.resetAddUserAPICallStatus());
     }
-    if(editUserAPIStatus === 'loaded') {
+    if (editUserAPIStatus === 'loaded') {
       dispatch(editUserActions.closeEditUserDialog());
       dispatch(editUserActions.resetEditUserAPICallStatus());
     }
 
-    if(props.type === 'edit' && editUserData) {
+    if (props.type === 'edit' && editUserData) {
       setValue('email', editUserData.email);
-      setValue('location',editUserData.location);
-      setValue('name',editUserData.name);
+      setValue('location', editUserData.location);
+      setValue('name', editUserData.name);
     }
-
-  }, [addUserAPIStatus,editUserData]);
-
+  }, [addUserAPIStatus, editUserData]);
 
   const handleClose = () => {
     if (props.type === 'add') {
@@ -75,24 +75,29 @@ export function AddUser(props: AddUserProps) {
 
   const onSubmit = (data: any) => {
     console.log(data);
-    if(props.type === 'add'){
+    if (props.type === 'add') {
       dispatch(fetchAddUser(data));
-    }
-    else
-    {
+    } else {
       data.id = editUserData.id;
-      console.log("edit api data",data);
+      console.log('edit api data', data);
       dispatch(fetchEditUser(data));
     }
+  };
 
-  };  
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
 
   return (
-    <Dialog open={props.isOpen} onClose={handleClose}>
-      <div style={{ width: 500 }}>
-        <DialogTitle> 
-          { props.type === 'add' ? 'Add User' : 'Edit User'}
-          </DialogTitle>
+    <Dialog
+      open={props.isOpen}
+      onClose={handleClose}
+
+    >
+      <div style={{ width: 500,backgroundColor: colors.primary[500]  }}>
+        <DialogTitle>
+          {props.type === 'add' ? 'Add User' : 'Edit User'}
+        </DialogTitle>
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <DialogContent>
@@ -169,10 +174,14 @@ export function AddUser(props: AddUserProps) {
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button variant="outlined" type="button" onClick={handleClose}>
+            <Button variant="outlined" type="button" onClick={handleClose} 
+            style={{backgroundColor:colors.primary[200]}}
+            >
               Cancel
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit"
+              style={{backgroundColor:colors.primary[400]}}
+            >
               Save
             </Button>
           </DialogActions>

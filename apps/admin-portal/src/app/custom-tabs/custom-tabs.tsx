@@ -48,6 +48,8 @@ export function CustomTabs(props: CustomTabsProps) {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+           indicatorColor='secondary'
+           textColor='secondary'
           >
             <Tab label="Products" />
             <Tab label="Checkout" />

@@ -26,10 +26,13 @@ import {
   MenuItem,
   IconButton,
   Skeleton,
+  useTheme,
 } from '@mui/material';
 
 import React from 'react';
 import { Stack } from '@mui/system';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { tokens } from 'apps/admin-portal/src/theme';
 
 /* eslint-disable-next-line */
 export interface UserProps {}
@@ -94,6 +97,10 @@ export function User(props: UserProps) {
     console.log(type);
   };
 
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+
   useEffect(() => {
 
     console.log('called users component');
@@ -139,9 +146,9 @@ export function User(props: UserProps) {
   console.log(getUserStatus);
   if (getUserStatus === 'loading') {
     content = (
-      <TableContainer>
+      <TableContainer > 
         <Table aria-label="sticky table">
-          <TableHead>
+          <TableHead style={{backgroundColor: colors.primary[400]}}>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
@@ -180,7 +187,7 @@ export function User(props: UserProps) {
       <Paper>
         <TableContainer>
           <Table aria-label="sticky table">
-            <TableHead>
+            <TableHead style={{backgroundColor: colors.primary[400]}}>
               <TableRow>
                 {columns.map((column) => (
                   <TableCell
@@ -193,7 +200,7 @@ export function User(props: UserProps) {
                 <TableCell> </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody style={{backgroundColor: colors.primary[300]}}>
               {users &&
                 users.map((user: any) => {
                   return (
@@ -248,6 +255,7 @@ export function User(props: UserProps) {
           </Table>
         </TableContainer>
         <TablePagination
+        style={{backgroundColor: colors.primary[400]}}
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
           count={totalUsersCount}
@@ -295,7 +303,7 @@ export function User(props: UserProps) {
         direction="row"
         style={{ display: 'flex', justifyContent: 'right' }}
       >
-        <Button type="button" variant="contained" onClick={openAddUserDialog}>
+        <Button type="button" variant="contained" onClick={openAddUserDialog} style={{backgroundColor: colors.primary[400]}}>
           Add User
         </Button>
       </Stack>

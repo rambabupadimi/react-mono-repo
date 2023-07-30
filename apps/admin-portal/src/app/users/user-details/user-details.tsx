@@ -1,4 +1,6 @@
-import { Button, Card } from '@mui/material';
+import { Button, Card, useTheme } from '@mui/material';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { tokens } from 'apps/admin-portal/src/theme';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -18,6 +20,8 @@ export function UserDetails(props: UserDetailsProps) {
   const { id } = useParams();
   const dispatch = useDispatch()<any>;
   const navigate = useNavigate();
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const navigateBack = () => {
     navigate('../users');
@@ -44,9 +48,9 @@ export function UserDetails(props: UserDetailsProps) {
   }
 
   return (
-    <Card className={styles['card-container']}>
+    <Card className={styles['card-container']} style={{backgroundColor:colors.primary[400]}}>
 
-      <Button type="button" onClick={navigateBack} >Back</Button>
+      <Button type="button" onClick={navigateBack} style={{backgroundColor:colors.primary[500], color:colors.primary[100]}} >Back</Button>
 
       {result}
     </Card>

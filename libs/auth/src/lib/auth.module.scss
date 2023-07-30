@@ -13,7 +13,6 @@
     flex-wrap: wrap;
     height: 100%;
     .auth-section-left {
-        background-color: #683b3b;
         width: 60%;
         display: flex;
         justify-content: center;
@@ -21,16 +20,15 @@
         flex-direction: column;
         .heading {
              font-size: 50px; 
-             color:#3e0909;  
+             
         }
         .sub-heading{
              font-size: 24px;   
-             color:#3e0909;
+           
         }
     }
 
        .auth-section-right {
-        background-color: #e2d2d2;
         width: 40%;
         display: flex;
         justify-content: center;
@@ -74,18 +72,17 @@
     .auth-section-mobile {
         display: block !important;
         height: 20%;
-        background-color: #683b3b;
         padding-top: 24px;
         .heading {
             font-size: 50px; 
-            color: #3e0909;  
+        
             display: flex;
             justify-content: center;
             align-items: center;
        }
        .sub-heading{
             font-size: 24px;   
-            color:#3e0909;
+        
             display: flex;
             justify-content: center;
             align-items: center;
